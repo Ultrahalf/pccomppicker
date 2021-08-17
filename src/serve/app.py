@@ -157,9 +157,17 @@ def component(name):
         hilodirection, queryfeatdict, queryvendors = session[sessionkey]
     else:
         # default values for queryfeatdict and queryvendors
+        hilodirection = 'lohi'
         queryfeatdict = featdict
         queryvendors = vendors
 
+    # product price order
+    if request.method == 'POST' and request.form.get('hiloselect') != None:
+        if request.form.get('hiloselect') == 'hilo':
+            hilodirection = 'hilo'
+        elif request.form.get('hiloselect') == 'lohi':
+            hilodirection = 'lohi'
+        
     # get queryfeatdict and queryvendors (modified featdict and vendors from GET)
     if request.method == 'GET' and request.args.get('filter-submit') != None:
         queryfeatdict = {}
@@ -179,20 +187,12 @@ def component(name):
             queryfeatdict = featdict
         if queryvendors == []:
             queryvendors = vendors
-        session[sessionkey] = [1, 2, 3]         # placeholder values
-        session[sessionkey][0] = 1              # hilodirection, TODO
-        session[sessionkey][1] = queryfeatdict
-        session[sessionkey][2] = queryvendors
 
-    # product price order
-    if request.method == 'POST' and request.form.get('hiloselect') != None:
-        if request.form.get('hiloselect') == 'hilo':
-            hilodirection = 'hilo'
-        elif request.form.get('hiloselect') == 'lohi':
-            hilodirection = 'lohi'
-    else:
-        hilodirection = 'lohi'
-        
+    session[sessionkey] = [1, 2, 3]         # placeholder values
+    session[sessionkey][0] = hilodirection
+    session[sessionkey][1] = queryfeatdict
+    session[sessionkey][2] = queryvendors
+
     # -1: high to low
     #  1: low to high
     if hilodirection == 'hilo':
