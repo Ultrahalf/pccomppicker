@@ -43,7 +43,7 @@ var cpu_brand = ['(amd)', '(intel)'];
 updateContent(category, cpu_brand, key)
 
 key = "series";
-var cpu_series = ['(i.?[0-9])', '(ryzen.?[0-9])'];
+var cpu_series = ['(i\s?[3579])', '(ryzen\s?[3579])'];
 updateContent(category, cpu_series, key)
 
 //**************COOLER UPDATION****************/
@@ -51,11 +51,11 @@ updateContent(category, cpu_series, key)
 category = "cooler";
 key = "brand";
 var cooler_brand = [
-    '(adata)', '(aerocool)', '(ant.?esports)', '(antec)', '(aorus)',
-    '(arctic.?silver)', '(arctic)', '(asus)', '(be.?quiet)',
-    '(cooler.?master)', '(corsair)', '(deepcool)', '(ekwb)', '(enermax)',
-    '(fractal.?design)', '(gamdias)', '(gigabyte)', '(intel)', '(inwin)',
-    '(jonsbo)', '(lian.?li)', '(msi)', '(noctua)', '(nzxt)', '(pc.?cooler)', 
+    '(adata)', '(aerocool)', '(ant\s?esports)', '(antec)', '(aorus)',
+    '(arctic\s?silver)', '(arctic)', '(asus)', '(be\s?quiet)',
+    '(cooler\s?master)', '(corsair)', '(deepcool)', '(ekwb)', '(enermax)',
+    '(fractal\s?design)', '(gamdias)', '(gigabyte)', '(intel)', '(inwin)',
+    '(jonsbo)', '(lian\s?li)', '(msi)', '(noctua)', '(nzxt)', '(pc\s?cooler)', 
     '(silverstone)', '(thermalright)', '(thermaltake)'
 ];
 updateContent(category, cooler_brand, key)
@@ -84,8 +84,8 @@ category = "memory";
 key = "brand";
 memory_brand = [
     '(adata)', '(antec)', '(corsair)', '(crucial)', '(g\.skill)', '(gigabyte)',
-    '(hyperx)', '(intel)', '(kingston)', '(klevv)', '(pny)', '(silicon.?power)',
-    '(supermicro)', '(team.?group)', '(thermal take)', '(thermaltake)', '(zion)'
+    '(hyperx)', '(intel)', '(kingston)', '(klevv)', '(pny)', '(silicon\s?power)',
+    '(supermicro)', '(team\s?group)', '(thermal\s?take)', '(zion)'
 ];
 updateContent(category, memory_brand, key)
 
@@ -93,7 +93,7 @@ memory_type = ['(ddr[0-9])'];
 key = "type";
 updateContent(category, memory_type, key)
 
-memory_capacity = ['([0-9]+.?gb)'];
+memory_capacity = ['([0-9]+\s?gb)'];
 key = "capacity";
 updateContent(category, memory_capacity, key)
 
@@ -101,7 +101,7 @@ memory_subcategory = ['(laptop)'];
 key = "sub category";
 updateContent(category, memory_subcategory, key)
 
-memory_speed = ['([0-9]+.?mhz)'];
+memory_speed = ['([0-9]+\s?mhz)'];
 key = "speed";
 updateContent(category, memory_speed, key)
 
@@ -114,7 +114,7 @@ storage_brand = [
     '(dell)', '(galax)', '(gigabyte)',  '(hikvision)', '(intel)',
     '(kingston)', '(lexar)', '(pincoy)', '(pioneer)', '(pny)', '(samsung)',
     '(sandisk)', '(seagate)', '(silicon power)', '(teamgroup)', '(toshiba)',
-    '(verbatim)', '(western digital|wd)', '(xpg)', '(adata)', '(\sh.?p)',
+    '(verbatim)', '(western\s?digital|wd)', '(xpg)', '(adata)', '(^h\s?p)',
 ];
 updateContent(category, storage_brand, key)
 
@@ -123,7 +123,7 @@ storage_type= [ '(hdd)', '(m\.2)','(ssd)'];
 updateContent(category, storage_type, key)
 
 key = "capacity";
-storage_capacity = ['([0-9]+.?gb)|([0-9]+.?tb)'];
+storage_capacity = ['([0-9]+\s?gb)|([0-9]+\s?tb)'];
 updateContent(category, storage_capacity, key)
 
 key = "form factor";
@@ -136,10 +136,10 @@ category = "case";
 key = "brand";
 
 case_brand = [
-    '(adata)', '(aerocool)', '(ant.?esports)', '(antec)', '(asus)', '(bitfenix)',
-    '(chiptronex)', '(circle)', '(cooler.?master)', '(corsair)', '(cougar)',
-    '(deepcool)', '(fingers)', '(foxin)', '(fractal)', '(fractal.?design)',
-    '(gamdias)', '(gigabyte)', '(in.?win)', '(jonsbo)', '(lian.?li)',
+    '(adata)', '(aerocool)', '(ant\s?esports)', '(antec)', '(asus)', '(bitfenix)',
+    '(chiptronex)', '(circle)', '(cooler\s?master)', '(corsair)', '(cougar)',
+    '(deepcool)', '(fingers)', '(foxin)', '(fractal)', '(fractal\s?design)',
+    '(gamdias)', '(gigabyte)', '(in\s?win)', '(jonsbo)', '(lian\s?li)',
     '(metallicgear)', '(montech)', '(msi)', '(nzxt)', '(phanteks)',
     '(silverstone)', '(thermaltake)', '(xpg)', '(zebronics)',
 ];
@@ -151,11 +151,11 @@ category = "psu";
 key = "brand";
 
 psu_brand = [
-    '(adata)', '(aerocool)', '(antec)', '(asus)', '(ant.?esports)',
-    '(antec)', '(circle)', '(cooler master)', '(corsair)', '(deepcool)',
-    '(fingers)', '(fractal.?design)', '(fsp)', '(gigabyte)', '(gamdias)',
+    '(adata)', '(aerocool)', '(antec)', '(asus)', '(ant\s?esports)',
+    '(antec)', '(circle)', '(cooler\s?master)', '(corsair)', '(deepcool)',
+    '(fingers)', '(fractal\s?design)', '(fsp)', '(gigabyte)', '(gamdias)',
     '(msi)', '(nzxt)', '(phanteks)', '(seasonic)', '(silverstone)',
-    '(super.?flower)', '(seasonic)', '(silverstone)', '(thermal.?take)',
+    '(super\s?flower)', '(seasonic)', '(silverstone)', '(thermal\s?take)',
     '(xpg)',
 ];
 updateContent(category, psu_brand, key)
@@ -165,9 +165,9 @@ updateContent(category, psu_brand, key)
 category = "gpu";
 key = "brand";
 gpu_brand = [
-    '(asrock)', '(asus)', '(colorful)', '(cooler.?master)',
+    '(asrock)', '(asus)', '(colorful)', '(cooler\s?master)',
     '(galax)', '(gigabyte)', '(inno3d)', '(msi)', '(nvidia)', '(nzxt)',
-    '(palit)', '(pny)', '(power.?color)', '(sapphire)', '(zotac)','(amd)'
+    '(palit)', '(pny)', '(power\s?color)', '(sapphire)', '(zotac)','(amd)'
 ];
 updateContent(category, gpu_brand, key)
 
@@ -182,7 +182,7 @@ key = "brand";
 
 monitor_brand = [
     '(acer)', '(aoc)', '(aorus)', '(asus)', '(benq)', '(deepcool)',
-    '(dell)', '(gigabyte)', '(h.?p)', '(l.?g)', '(lenovo)', '(msi)',
+    '(dell)', '(gigabyte)', '(^h\s?p)', '(^l\s?g)', '(lenovo)', '(msi)',
     '(philips)', '(phillips)', '(samsung)', '(viewsonic)', '(zowie)', '(amd)'
 ];
 updateContent(category, monitor_brand, key)
