@@ -125,8 +125,7 @@ def saved_builds(build_url):
 
 @app.route('/component/<name>', methods=['GET', 'POST'])
 def component(name):
-    vendors = []
-
+    # generate a featdict
     if name == 'cpu':
         brands = dbops.get_category_key_vals('cpu', 'brand')
         cpu_series = dbops.get_category_key_vals('cpu', 'series')
@@ -149,42 +148,67 @@ def component(name):
         brands = dbops.get_category_key_vals(name, 'brand')
         featdict = {'brand': brands}
 
-    pageno = 1
-    queryfeatdict = featdict
+    # generate all vendors
+    vendors = dbops.get_category_key_vals(name, 'vendor')
 
+    # check if the user has already set filters for this category
+    sessionkey = f'{name}_filters'
+    if sessionkey in session:
+        hilodirection, queryfeatdict, queryvendors = session[sessionkey]
+    else:
+        # default values for queryfeatdict and queryvendors
+        queryfeatdict = featdict
+        queryvendors = vendors
+
+    # get queryfeatdict and queryvendors (modified featdict and vendors from GET)
     if request.method == 'GET' and request.args.get('filter-submit') != None:
         queryfeatdict = {}
+        queryvendors = []
         for arg in request.args:
             if arg.endswith('-check'):
                 arg_split_list = arg.split('-')
-                dbfield = arg_split_list[0]
-                dbfieldval = arg_split_list[1]
-
+                dbfield = arg_split_list[0]     # vendor, brand, type, capacity etc.
+                dbfieldval = arg_split_list[1]  # vedant, itdepot, amd, etc.
                 if dbfield == 'vendor':
-                    vendors.append(dbfieldval)
-                elif dbfield == 'price':
-                    pass
-                else:
-                    if dbfield not in queryfeatdict:
-                        queryfeatdict[dbfield] = []
-                    queryfeatdict[dbfield].append(dbfieldval)
-                os.system(f"echo {arg.split('-')} queryfeatdict: {queryfeatdict} XXX featdict: {featdict} XXX vendors: {vendors}")
+                    queryvendors.append(dbfieldval)
+                elif dbfield != 'price':
+                    # Create queryfeatdict[dbfield] if it doesn't exist
+                    _dbfield = queryfeatdict.setdefault(dbfield, [])
+                    _dbfield.append(dbfieldval)
+        if queryfeatdict == []:
+            queryfeatdict = featdict
+        if queryvendors == []:
+            queryvendors = vendors
+        session[sessionkey] = [1, 2, 3]         # placeholder values
+        session[sessionkey][0] = 1              # hilodirection, TODO
+        session[sessionkey][1] = queryfeatdict
+        session[sessionkey][2] = queryvendors
 
-    if request.method == 'GET' and request.args.get('pageno') != None:
-        pageno = int(request.args.get('pageno'))
-        products = dbops.get_products(name, request.form.get('hiloselect'), queryfeatdict, vendors)
-
+    # product price order
     if request.method == 'POST' and request.form.get('hiloselect') != None:
         if request.form.get('hiloselect') == 'hilo':
-            products = dbops.get_products(name, -1, queryfeatdict, vendors)
             hilodirection = 'hilo'
         elif request.form.get('hiloselect') == 'lohi':
-            products = dbops.get_products(name, 1, queryfeatdict, vendors)
             hilodirection = 'lohi'
     else:
         hilodirection = 'lohi'
-        products = dbops.get_products(name, 1, queryfeatdict, vendors)
+        
+    # -1: high to low
+    #  1: low to high
+    if hilodirection == 'hilo':
+        products = dbops.get_products(name, -1, queryfeatdict, queryvendors)
+    elif hilodirection == 'lohi':
+        products = dbops.get_products(name, 1, queryfeatdict, queryvendors)
+    else:
+        sys.exit("Error")
 
+    # get pageno
+    if request.method == 'GET' and request.args.get('pageno') != None:
+        pageno = int(request.args.get('pageno'))
+    else:
+        pageno = 1
+
+    # get total number of pages to be displayed
     numpages = math.ceil(len(products) / ITEMS_PER_PAGE)
 
     # gives the products to be displayed on page {pageno}
