@@ -36,9 +36,18 @@ COMPONENTS = OrderedDict([
 ])
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    if request.method == 'POST' and request.form.get('search-submit') != None:
+        return redirect(url_for('search', search_string=request.form.get('search_string')))
+
     return render_template('index.html', components=COMPONENTS)
+
+
+@app.route('/search/<search_string>')
+def search(search_string):
+    products = dbops.search(search_string)
+    return render_template('search.html', data=products)
 
 
 @app.route('/about')

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block main %}
+
+<div id="product-grid">
+
+    {% for prod in data %}
+    <div class="product-card">
+        <img src="{{ prod['img'] }}" alt="{{ prod['title'] }}"/>
+        <h4>{{ prod['title'] }}</h4>
+        <h5>by {{ prod['vendor'] }}</h5>
+        <span>{{ prod['price'] }}</span>
+        <br><br>
+        <div class="btn-group">
+
+            <button class="btn-vist" onclick="javascript:window.open('{{ prod['url'] }}', '_blank');">
+                visit page
+            </button>
+
+            <!-- comparison button -->
+            <button class="btn-compare" id="compare-{{prod["_id"]}}">
+                compare
+            </button>
+            <script type=text/javascript>
+                $(function() {
+                $('button#compare-{{prod["_id"]}}').on('click', function(e) {
+                    e.preventDefault()
+                    $.getJSON('/_comparison/{{prod["_id"]}}',
+                        function(data) { 
+                            // no change to button
+                        }
+                    );
+                    return false;
+                  });
+                });
+            </script>
+            <!-- end comparison button -->
+
+            <!-- wishlist button -->
+            <div class="btn-add-rm" id="wishlist-{{prod["_id"]}}">
+                <button class="btn-add">
+                    add to wishlist
+                </button>
+            </div>
+            <script type=text/javascript>
+                $(function() {
+                $('#wishlist-{{prod["_id"]}}').on('click', function(e) {
+                    e.preventDefault()
+                    $.getJSON('/_wishlist_toggle/{{prod["_id"]}}',
+                        function(data) { 
+                            $("#wishlist-{{prod['_id']}}").html(
+                                "<button class="+data.newbuttonclass+">"+
+                                    data.newbuttontext+
+                                "</button>"
+                            )
+                        }
+                    );
+                    return false;
+                  });
+                });
+            </script>
+            <!-- end wishlist button -->
+
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

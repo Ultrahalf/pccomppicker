@@ -1,4 +1,12 @@
 {% extends "base.html" %}
+
+{% block nav %}
+<form method="POST" action="" class="search">
+    <input type="text" class="search-input" placeholder="Search" name="search_string">
+    <button type="submit" name='search-submit'> Go</button>
+</form>
+{% endblock %}
+
 {% block main %}
 <div id="index-wrapper">
     <div class="wrapper">

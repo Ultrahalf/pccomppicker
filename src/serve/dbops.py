@@ -149,6 +149,17 @@ def get_category_key_vals(category: str, key: str):
     return list(products.distinct(key, {"category": category}))
 
 
+def search(search_str: str):
+    products.create_index([('title', 'text')])
+    objects = products.find( { "$text": {"$search": search_str} } )
+
+    list_of_dicts = list()
+    for obj in objects:
+        list_of_dicts.append(obj)
+
+    return list_of_dicts
+
+
 if __name__ == '__main__':
     print(get_products('cpu', -1, {'brand': ['amd'], 'series': ['ryzen5']}))
     print(get_category_key_vals('cpu', 'vendor'))
